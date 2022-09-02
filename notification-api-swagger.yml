@@ -72,7 +72,7 @@ paths:
           description: Endpoint not found
         "500":
           description: Server error
-  /mobilePush/attributes:
+  /mobilePush/endpoint/attributes:
     post:
       tags:
         - Mobile Push
@@ -304,7 +304,7 @@ components:
         message:
           type: string
           description: message body
-        messageType:
+        messageCategory:
           type: string
           description: message pre-configured types
     MobilePushEndpointRequest:
@@ -353,7 +353,7 @@ components:
         message:
           type: object
           description: message body
-        messageType:
+        messageCategory:
           type: string
           description: message pre-configured types
     EmailTemplateRequest:
@@ -380,7 +380,7 @@ components:
         - destination
         - source
         - message
-        - messageType
+        - messageCategory
         - templateName
         - templateData
       properties:
@@ -398,7 +398,7 @@ components:
         message:
           type: object
           description: message body
-        messageType:
+        messageCategory:
           type: string
           description: message pre-configured types
         templateName:
@@ -408,12 +408,40 @@ components:
           type: object
           description: Template data
     EmailBulkRequest:
-      allOf:
-        - $ref: '#/components/schemas/EmailRequest'
-        - type: object
-          properties:
-            destination:
-              $ref: '#/components/schemas/EmailBulkDestination'
+      type: object
+      required:
+        - destinations
+        - source
+        - message
+        - messageCategory
+        - templateName
+        - templateData
+      properties:
+        destinations:
+          type: array
+          items:
+            $ref: '#/components/schemas/EmailBulkDestination'
+        replyToAddresses:
+          type: array
+          example:
+            - kcimuihc@gmail.com
+          items:
+            type: string
+        source:
+          type: string
+          description: Sender address
+        message:
+          type: object
+          description: message body
+        messageCategory:
+          type: string
+          description: message pre-configured types
+        templateName:
+          type: string
+          description: Template name
+        templateData:
+          type: object
+          description: Template data
     EmailBulkDestination:
       type: object
       required:
