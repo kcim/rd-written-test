@@ -1,0 +1,450 @@
+openapi: 3.0.0
+info:
+  title: RD Written Test - Notification API
+  version: 1.0.0
+servers:
+  - url: https://ertujffgg-vpce03423de4.execute-api.ap-east-1.amazonaws.com/dev-1
+    description: Notification API Gateway DEV
+security:
+  - apiKeyAuth: []
+paths:
+  /sms/send:
+    post:
+      tags:
+        - SMS
+      summary: Send SMS notification
+      operationId: sendSMS
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SmsRequest'
+        required: true
+      responses:
+        "200":
+          description: SMS successfully sent
+        "400":
+          description: Invalid/missing request parameters
+        "403":
+          description: Forbidden
+        "500":
+          description: Server error
+  /mobilePush/endpoint:
+    post:
+      tags:
+        - Mobile Push
+      summary: Create Push notification Endpoint
+      operationId: createMobilePushEndpoint
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MobilePushEndpointRequest'
+        required: true
+      responses:
+        "200":
+          description: Push notification endpoint created
+        "400":
+          description: Invalid/missing request parameters
+        "403":
+          description: Forbidden
+        "500":
+          description: Server error
+    delete:
+      tags:
+        - Mobile Push
+      summary: Delete Push notification Endpoint
+      operationId: deleteMobilePushEndpoint
+      parameters:
+        - name: endpointArn
+          in: query
+          schema:
+            type: string
+            example: 'arn:aws:sns:us-west-2:111122223333:app/FCM/fcmpushapp/165j2214-051z-3176-b586-138o3d420071'
+      responses:
+        "200":
+          description: Push notification endpoint deleted
+        "400":
+          description: Invalid/missing request parameters
+        "403":
+          description: Forbidden
+        "404":
+          description: Endpoint not found
+        "500":
+          description: Server error
+  /mobilePush/attributes:
+    post:
+      tags:
+        - Mobile Push
+      summary: Set Push notification Endpoint attributes
+      operationId: setMobilePushEndpointAttributes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MobilePushEndpointAttribute'
+        required: true
+      responses:
+        "200":
+          description: Push notification endpoint created
+        "400":
+          description: Invalid/missing request parameters
+        "403":
+          description: Forbidden
+        "500":
+          description: Server error
+    get:
+      tags:
+        - Mobile Push
+      summary: Get Push notification Endpoint attributes
+      operationId: getMobilePushEndpointAttributes
+      parameters:
+        - name: endpointArn
+          in: query
+          schema:
+            type: string
+            example: 'arn:aws:sns:us-west-2:111122223333:app/FCM/fcmpushapp/165j2214-051z-3176-b586-138o3d420071'
+      responses:
+        "200":
+          description: Push notification attributes
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MobilePushEndpointAttribute'
+        "400":
+          description: Invalid/missing request parameters
+        "403":
+          description: Forbidden
+        "404":
+          description: Endpoint not found
+        "500":
+          description: Server error
+  /mobilePush/send:
+    post:
+      tags:
+        - Mobile Push
+      summary: Send Push notification
+      operationId: sendMobilePush
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MobilePushRequest'
+        required: true
+      responses:
+        "200":
+          description: Push notification successfully sent
+        "400":
+          description: Invalid/missing request parameters
+        "403":
+          description: Forbidden
+        "404":
+          description: Endpoint not found
+        "500":
+          description: Server error
+  /email/templates:
+    post:
+      tags:
+        - Email
+      summary: Create email template
+      operationId: createEmailTemplate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmailTemplateRequest'
+        required: true
+      responses:
+        "200":
+          description: Push notification endpoint created
+        "400":
+          description: Invalid/missing request parameters
+        "403":
+          description: Forbidden
+        "500":
+          description: Server error
+    put:
+      tags:
+        - Email
+      summary: Update email template
+      operationId: updateEmailTemplate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmailTemplateRequest'
+        required: true
+      responses:
+        "200":
+          description: email template updated
+        "400":
+          description: Invalid/missing request parameters
+        "403":
+          description: Forbidden
+        "404":
+          description: Template not found
+        "500":
+          description: Server error
+    get:
+      tags:
+        - Email
+      summary: Get email template
+      operationId: getEmailTemplate
+      parameters:
+        - name: templateName
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Push notification attributes
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailTemplateRequest'
+        "400":
+          description: Invalid/missing request parameters
+        "403":
+          description: Forbidden
+        "404":
+          description: Template not found
+        "500":
+          description: Server error
+    delete:
+      tags:
+        - Email
+      summary: Delete email template
+      operationId: deleteEmailTemplate
+      parameters:
+        - name: templateName
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Template deleted
+        "400":
+          description: Invalid/missing request parameters
+        "403":
+          description: Forbidden
+        "404":
+          description: Template not found
+        "500":
+          description: Server error
+  /email/send:
+    post:
+      tags:
+        - Email
+      summary: Send email
+      operationId: sendEmail
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmailRequest'
+        required: true
+      responses:
+        "200":
+          description: Push notification endpoint created
+        "400":
+          description: Invalid/missing request parameters
+        "403":
+          description: Forbidden
+        "404":
+          description: Template not found
+        "500":
+          description: Server error
+  /email/sendBulk:
+    post:
+      tags:
+        - Email
+      summary: Send bulk email
+      operationId: sendBulkEmail
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmailBulkRequest'
+        required: true
+      responses:
+        "200":
+          description: Push notification endpoint created
+        "400":
+          description: Invalid/missing request parameters
+        "403":
+          description: Forbidden
+        "404":
+          description: Template not found
+        "500":
+          description: Server error
+components:
+  schemas:
+    SmsRequest:
+      type: object
+      required:
+        - phoneNumber
+        - message
+      properties:
+        senderId:
+          type: string
+          description: Sender name of the SMS
+          default: "RD Wallet"
+          minLength: 3
+          maxLength: 11
+        originationNumber:
+          type: string
+          description: Sender number of the SMS
+          default: "+85228444356"
+          minLength: 5
+          maxLength: 14
+        phoneNumber:
+          type: string
+          description: Receiver phone number
+          example: '+85293242646'
+        message:
+          type: string
+          description: message body
+        messageType:
+          type: string
+          description: message pre-configured types
+    MobilePushEndpointRequest:
+      type: object
+      required:
+        - token
+      properties:
+        token:
+          type: string
+          description: Sender number of the SMS
+          minLength: 5
+          maxLength: 14
+        customUserData:
+          type: string
+          description: Customer Data
+        atttibutes:
+          type: object
+          description: Additional attributes
+    MobilePushEndpointAttribute:
+      type: object
+      required:
+        - token
+      properties:
+        endpointArn:
+          type: string
+          description: Sender name of the SMS
+          default: "arn:aws:sns:us-west-2:111122223333:app/FCM/fcmpushapp/165j2214-051z-3176-b586-138o3d420071"
+          minLength: 3
+          maxLength: 11
+          writeOnly: true
+        atttibutes:
+          type: object
+          description: Additional attributes
+    MobilePushRequest:
+      type: object
+      required:
+        - endpointArn
+        - message
+      properties:
+        endpointArn:
+          type: string
+          description: Sender name of the SMS
+          default: "arn:aws:sns:us-west-2:111122223333:app/FCM/fcmpushapp/165j2214-051z-3176-b586-138o3d420071"
+          minLength: 3
+          maxLength: 11
+        message:
+          type: object
+          description: message body
+        messageType:
+          type: string
+          description: message pre-configured types
+    EmailTemplateRequest:
+      type: object
+      required:
+        - endpointArn
+        - message
+      properties:
+        templateName:
+          type: string
+          description: Template Nuame
+        htmlPart:
+          type: string
+          description: The HTML body of the email.
+        subjectPart:
+          type: string
+          description: The subject line of the email.
+        textPart:
+          type: string
+          description: The email body that is visible to recipients whose email clients do not display HTML content
+    EmailRequest:
+      type: object
+      required:
+        - destination
+        - source
+        - message
+        - messageType
+        - templateName
+        - templateData
+      properties:
+        destination:
+          $ref: '#/components/schemas/EmailDestination'
+        replyToAddresses:
+          type: array
+          example:
+            - kcimuihc@gmail.com
+          items:
+            type: string
+        source:
+          type: string
+          description: Sender address
+        message:
+          type: object
+          description: message body
+        messageType:
+          type: string
+          description: message pre-configured types
+        templateName:
+          type: string
+          description: Template name
+        templateData:
+          type: object
+          description: Template data
+    EmailBulkRequest:
+      allOf:
+        - $ref: '#/components/schemas/EmailRequest'
+        - type: object
+          properties:
+            destination:
+              $ref: '#/components/schemas/EmailBulkDestination'
+    EmailBulkDestination:
+      type: object
+      required:
+        - replacementTemplateData
+        - destination
+      properties:
+        replacementTemplateData:
+          type: object
+        destination:
+          $ref: '#/components/schemas/EmailDestination'
+    EmailDestination:
+      type: object
+      required:
+        - toAddresses
+      properties:
+        toAddresses:
+          type: array
+          example:
+            - kcimuihc@gmail.com
+          items:
+            type: string
+        ccAddresses:
+          type: array
+          items:
+            type: string
+        bccAddresses:
+          type: array
+          items:
+            type: string
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      name: X-Api-Key
+      in: header
